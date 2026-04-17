@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{width:1200px;height:630px;background:linear-gradient(135deg,#0a0a0a,#0d1117,#0a0f0d);font-family:-apple-system,'Hiragino Sans',sans-serif;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden}
+  .glow{position:absolute;width:500px;height:500px;border-radius:50%;opacity:0.1}
+  .g1{top:-100px;left:-100px;background:radial-gradient(circle,#10b981,transparent 70%)}
+  .g2{bottom:-100px;right:-100px;background:radial-gradient(circle,#3b82f6,transparent 70%)}
+  .content{position:relative;z-index:1;display:flex;align-items:center;gap:60px;padding:60px}
+  .left{flex:1}
+  .badge{display:inline-block;padding:6px 16px;background:rgba(16,185,129,0.15);border:1px solid rgba(16,185,129,0.3);border-radius:20px;color:#34d399;font-size:14px;margin-bottom:20px}
+  h1{color:white;font-size:64px;font-weight:800;letter-spacing:-2px;margin-bottom:12px}
+  p{color:#9ca3af;font-size:22px;line-height:1.4}
+  .right{width:320px;background:#111;border:1px solid #1f2937;border-radius:16px;padding:24px}
+  .face{text-align:center;font-size:32px;color:white;margin-bottom:8px}
+  .score-label{color:#6b7280;font-size:11px}
+  .score{font-size:48px;font-weight:800;font-family:monospace;color:#f87171;text-align:center}
+  .score span{font-size:20px;color:#4b5563}
+  .bar{background:#1f2937;border-radius:4px;height:8px;margin:8px 0 16px;overflow:hidden}
+  .fill{height:100%;border-radius:4px;background:#ef4444}
+  .stats{display:grid;grid-template-columns:1fr 1fr;gap:6px}
+  .stat{background:#0a0a0a;border-radius:8px;padding:8px}
+  .sl{color:#6b7280;font-size:9px}.sv{color:white;font-size:16px;font-weight:700;font-family:monospace}
+</style>
+</head>
+<body>
+  <div class="glow g1"></div>
+  <div class="glow g2"></div>
+  <div class="content">
+    <div class="left">
+      <div class="badge">Webcam AI Scanner</div>
+      <h1>つかれみる</h1>
+      <p>顔は嘘をつかない。<br>カメラ5秒で疲労を数値化。</p>
+    </div>
+    <div class="right">
+      <div class="face">(=_=) zzZ</div>
+      <div class="score-label">疲労度</div>
+      <div class="score">73<span>/100</span></div>
+      <div class="bar"><div class="fill" style="width:73%"></div></div>
+      <div class="stats">
+        <div class="stat"><div class="sl">推定睡眠</div><div class="sv">1.8h</div></div>
+        <div class="stat"><div class="sl">KSS</div><div class="sv">7.9/9</div></div>
+        <div class="stat"><div class="sl">クマ度</div><div class="sv">99%</div></div>
+        <div class="stat"><div class="sl">寝るべき度</div><div class="sv">72</div></div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
