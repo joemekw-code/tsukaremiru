@@ -30,17 +30,27 @@ export default function Home() {
   const [result, setResult] = useState<FatigueResult | null>(null);
 
   return (
-    <main className="min-h-screen bg-black text-white">
-      <div className="max-w-lg mx-auto px-4 py-8">
+    <main className="min-h-screen text-white relative overflow-hidden"
+          style={{ background: 'linear-gradient(180deg, #0a0a0a 0%, #0d1117 40%, #0a0f0d 100%)' }}>
+      {/* Background glow effects */}
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[600px] rounded-full opacity-[0.07]"
+           style={{ background: 'radial-gradient(circle, #10b981 0%, transparent 70%)' }} />
+      <div className="absolute top-[400px] right-0 w-[300px] h-[300px] rounded-full opacity-[0.04]"
+           style={{ background: 'radial-gradient(circle, #3b82f6 0%, transparent 70%)' }} />
+
+      <div className="relative max-w-lg mx-auto px-4 py-8">
         {/* Header */}
         <div className="text-center mb-6">
-          <h1 className="text-3xl font-bold tracking-tight mb-2">
+          <div className="inline-block px-3 py-1 bg-emerald-950/50 border border-emerald-800/30 rounded-full text-emerald-400 text-xs mb-3">
+            Webcam AI Scanner
+          </div>
+          <h1 className="text-4xl font-bold tracking-tight mb-2 bg-gradient-to-r from-white via-white to-emerald-200 bg-clip-text text-transparent">
             つかれみる
           </h1>
-          <p className="text-gray-400 text-base mb-1">
+          <p className="text-gray-300 text-base mb-1">
             顔は嘘をつかない。5秒で疲労を数値化。
           </p>
-          <p className="text-gray-600 text-xs">
+          <p className="text-gray-500 text-xs">
             Oura Ringと同じことを、カメラだけで。無料。
           </p>
         </div>
