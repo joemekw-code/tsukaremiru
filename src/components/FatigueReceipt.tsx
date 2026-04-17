@@ -160,6 +160,46 @@ export default function FatigueReceipt({ result, onReset }: Props) {
           もう一度スキャン
         </button>
       </div>
+
+      {/* Pro upsell */}
+      <div className="mt-6 bg-gradient-to-b from-gray-900 to-gray-950 border border-gray-800 rounded-2xl p-5">
+        <div className="text-center mb-3">
+          <div className="text-sm font-bold text-white mb-1">つかれみる Pro</div>
+          <div className="text-xs text-gray-500">毎日の疲労をトラッキング</div>
+        </div>
+        <div className="space-y-2 text-xs text-gray-400 mb-4">
+          <div className="flex items-center gap-2">
+            <span className="text-emerald-500">&#10003;</span>
+            <span>無制限スキャン（無料は週3回）</span>
+          </div>
+          <div className="flex items-center gap-2">
+            <span className="text-emerald-500">&#10003;</span>
+            <span>30日間の疲労トレンドグラフ</span>
+          </div>
+          <div className="flex items-center gap-2">
+            <span className="text-emerald-500">&#10003;</span>
+            <span>週次レポート &amp; AIコーチング</span>
+          </div>
+          <div className="flex items-center gap-2">
+            <span className="text-emerald-500">&#10003;</span>
+            <span>疲労レシート画像ダウンロード</span>
+          </div>
+        </div>
+        <div className="text-center mb-3">
+          <span className="text-2xl font-bold text-white">&#65509;500</span>
+          <span className="text-gray-500 text-sm">/月</span>
+        </div>
+        <a
+          href="https://buy.stripe.com/test_placeholder"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="block w-full text-center px-4 py-3 bg-white text-black font-bold rounded-xl
+                     hover:bg-gray-200 transition-all text-sm"
+        >
+          Pro を始める（7日間無料）
+        </a>
+        <div className="text-center text-xs text-gray-600 mt-2">いつでもキャンセル可</div>
+      </div>
     </div>
   );
 }

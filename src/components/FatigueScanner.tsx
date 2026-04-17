@@ -3,8 +3,9 @@
 import { useRef, useState, useCallback, useEffect } from 'react';
 import { FaceLandmarker, FilesetResolver } from '@mediapipe/tasks-vision';
 import { analyzeFatigue, type FatigueResult } from '@/lib/fatigue-engine';
+import { canScan, recordScan, getRemainingScans } from '@/lib/scan-limit';
 
-type ScanState = 'idle' | 'loading' | 'ready' | 'scanning' | 'done';
+type ScanState = 'idle' | 'loading' | 'ready' | 'scanning' | 'done' | 'limit';
 
 interface Props {
   onResult: (result: FatigueResult) => void;
@@ -16,6 +17,7 @@ export default function FatigueScanner({ onResult }: Props) {
   const [state, setState] = useState<ScanState>('idle');
   const [progress, setProgress] = useState(0);
   const [error, setError] = useState<string | null>(null);
+  const [remaining, setRemaining] = useState(3);
   const landmarkerRef = useRef<FaceLandmarker | null>(null);
   const streamRef = useRef<MediaStream | null>(null);
 
@@ -72,6 +74,11 @@ export default function FatigueScanner({ onResult }: Props) {
   const startScan = useCallback(async () => {
     if (!landmarkerRef.current || !videoRef.current) return;
 
+    if (!canScan()) {
+      setState('limit');
+      return;
+    }
+
     await startCamera();
     // Wait a moment for camera to stabilize
     await new Promise(r => setTimeout(r, 500));
@@ -108,6 +115,8 @@ export default function FatigueScanner({ onResult }: Props) {
         }
 
         const result = analyzeFatigue(earSeries, noseYSeries, colorSamples, TARGET_FPS);
+        recordScan();
+        setRemaining(getRemainingScans());
         onResult(result);
         setState('done');
         return;
@@ -153,6 +162,7 @@ export default function FatigueScanner({ onResult }: Props) {
   }, [startCamera, stopCamera, onResult]);
 
   useEffect(() => {
+    setRemaining(getRemainingScans());
     initLandmarker();
     return () => {
       stopCamera();
@@ -211,14 +221,37 @@ export default function FatigueScanner({ onResult }: Props) {
       )}
 
       {state === 'ready' && (
-        <button
-          onClick={startScan}
-          className="px-8 py-3 bg-emerald-500 hover:bg-emerald-400 text-white font-bold rounded-xl
-                     transition-all shadow-lg shadow-emerald-500/25 hover:shadow-emerald-400/40
-                     active:scale-95 text-lg"
-        >
-          スキャン開始
-        </button>
+        <>
+          <button
+            onClick={startScan}
+            className="px-8 py-3 bg-emerald-500 hover:bg-emerald-400 text-white font-bold rounded-xl
+                       transition-all shadow-lg shadow-emerald-500/25 hover:shadow-emerald-400/40
+                       active:scale-95 text-lg"
+          >
+            スキャン開始
+          </button>
+          <div className="text-gray-600 text-xs">
+            今週の残りスキャン: {remaining}/3（Proで無制限）
+          </div>
+        </>
+      )}
+
+      {state === 'limit' && (
+        <div className="text-center space-y-3">
+          <div className="text-orange-400 text-sm font-medium">
+            今週の無料スキャン回数（3回）を使い切りました
+          </div>
+          <a
+            href="https://buy.stripe.com/test_placeholder"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-block px-6 py-3 bg-white text-black font-bold rounded-xl
+                       hover:bg-gray-200 transition-all text-sm"
+          >
+            Proにアップグレード（&#65509;500/月）
+          </a>
+          <div className="text-gray-600 text-xs">7日間無料トライアル付き</div>
+        </div>
       )}
 
       {state === 'loading' && (
