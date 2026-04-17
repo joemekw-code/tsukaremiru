@@ -6,122 +6,117 @@ import type { FatigueResult } from '@/lib/fatigue-engine';
 
 const FatigueScanner = dynamic(() => import('@/components/FatigueScanner'), {
   ssr: false,
-  loading: () => (
-    <div className="w-full aspect-[4/3] bg-stone-100 rounded-xl flex items-center justify-center border border-stone-200">
-      <div className="text-stone-400 text-sm tracking-widest">準備中</div>
-    </div>
-  ),
+  loading: () => <div className="w-full h-full" />,
 });
-
 const FatigueReceipt = dynamic(() => import('@/components/FatigueReceipt'), { ssr: false });
+
+/* ── Pattern A: ゆるかわマスコット ──
+   Yuru-kawa mascot that changes expression based on state.
+   M PLUS Rounded 1c, muted pastels, warm.
+   The mascot IS the brand. Camera is secondary. */
+
+function Mascot({ state }: { state: 'idle' | 'scanning' | 'tired' | 'ok' }) {
+  // Custom SVG mascot - a small round creature with droopy eyes
+  // NOT emoji, NOT stock. Hand-drawn feel with intentional wobble.
+  return (
+    <svg viewBox="0 0 120 120" className="w-24 h-24" fill="none">
+      {/* Body - slightly imperfect circle (organic feel) */}
+      <path d="M60 10 C90 10 110 30 110 60 C110 90 90 110 60 110 C30 110 10 90 10 60 C10 30 30 10 60 10Z"
+            fill="#f0e6d8" stroke="#d4c0a8" strokeWidth="1.5"/>
+      {/* Blush */}
+      <ellipse cx="35" cy="68" rx="8" ry="5" fill="#f0c4c0" opacity="0.5"/>
+      <ellipse cx="85" cy="68" rx="8" ry="5" fill="#f0c4c0" opacity="0.5"/>
+
+      {state === 'idle' && <>
+        {/* Neutral closed eyes */}
+        <path d="M38 55 Q45 58 52 55" stroke="#7a6b5a" strokeWidth="2.5" strokeLinecap="round"/>
+        <path d="M68 55 Q75 58 82 55" stroke="#7a6b5a" strokeWidth="2.5" strokeLinecap="round"/>
+        <path d="M50 72 Q60 76 70 72" stroke="#7a6b5a" strokeWidth="2" strokeLinecap="round"/>
+      </>}
+
+      {state === 'scanning' && <>
+        {/* One eye open, one squinting - curious */}
+        <circle cx="45" cy="52" r="4" fill="#7a6b5a"/>
+        <path d="M68 55 Q75 58 82 55" stroke="#7a6b5a" strokeWidth="2.5" strokeLinecap="round"/>
+        <ellipse cx="60" cy="74" rx="4" ry="3" fill="#7a6b5a" opacity="0.3"/>
+      </>}
+
+      {state === 'tired' && <>
+        {/* Very droopy, barely open */}
+        <path d="M36 58 Q45 54 54 58" stroke="#7a6b5a" strokeWidth="2.5" strokeLinecap="round"/>
+        <path d="M66 58 Q75 54 84 58" stroke="#7a6b5a" strokeWidth="2.5" strokeLinecap="round"/>
+        <path d="M52 74 Q60 70 68 74" stroke="#7a6b5a" strokeWidth="1.5" strokeLinecap="round"/>
+        {/* zzz */}
+        <text x="88" y="35" fontSize="12" fill="#b8a88a" fontFamily="sans-serif" fontWeight="600">z</text>
+        <text x="95" y="25" fontSize="10" fill="#d0c4b4" fontFamily="sans-serif" fontWeight="600">z</text>
+      </>}
+
+      {state === 'ok' && <>
+        {/* Happy, slightly open */}
+        <path d="M38 52 Q45 48 52 52" stroke="#7a6b5a" strokeWidth="2.5" strokeLinecap="round"/>
+        <path d="M68 52 Q75 48 82 52" stroke="#7a6b5a" strokeWidth="2.5" strokeLinecap="round"/>
+        <path d="M48 72 Q60 80 72 72" stroke="#7a6b5a" strokeWidth="2" strokeLinecap="round"/>
+      </>}
+    </svg>
+  );
+}
 
 export default function PatternA() {
   const [result, setResult] = useState<FatigueResult | null>(null);
+  const [scanning, setScanning] = useState(false);
 
   return (
-    <main className="min-h-screen" style={{ background: '#f8f6f0', fontFamily: '"Noto Serif JP", "Hiragino Mincho ProN", serif' }}>
-      {/* Subtle texture overlay */}
-      <div className="fixed inset-0 opacity-[0.03] pointer-events-none"
-           style={{ backgroundImage: 'url("data:image/svg+xml,%3Csvg width=\'100\' height=\'100\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cfilter id=\'noise\'%3E%3CfeTurbulence type=\'fractalNoise\' baseFrequency=\'0.9\' numOctaves=\'4\' stitchTiles=\'stitch\'/%3E%3C/filter%3E%3Crect width=\'100\' height=\'100\' filter=\'url(%23noise)\' opacity=\'0.5\'/%3E%3C/svg%3E")' }} />
+    <main className="h-[100dvh] flex flex-col overflow-hidden"
+          style={{ background: '#f5efe6', fontFamily: '"M PLUS Rounded 1c", "Noto Sans JP", sans-serif' }}>
 
-      <div className="relative max-w-md mx-auto px-5 py-12">
-        {!result ? (
-          <>
-            {/* Header - vertical Japanese aesthetic */}
-            <header className="text-center mb-10">
-              <div className="inline-block border-b-2 border-stone-800 pb-2 mb-4">
-                <h1 className="text-2xl tracking-[0.3em] text-stone-800 font-normal">
-                  つかれみる
-                </h1>
-              </div>
-              <p className="text-stone-500 text-sm tracking-wide leading-relaxed">
-                顔は、嘘をつかない。<br />
-                五秒の静寂が、あなたの疲れを数字にする。
-              </p>
-            </header>
+      {!result ? (
+        <div className="flex-1 flex flex-col items-center justify-center px-6">
+          {/* Mascot - the hero */}
+          <div className="mb-4">
+            <Mascot state={scanning ? 'scanning' : 'idle'} />
+          </div>
 
-            {/* Scanner area */}
-            <FatigueScanner onResult={setResult} />
+          {/* Brand */}
+          <h1 className="text-xl font-bold tracking-wide mb-1" style={{ color: '#4a3f35' }}>
+            つかれみる
+          </h1>
+          <p className="text-xs mb-6" style={{ color: '#a89880', letterSpacing: '0.05em' }}>
+            顔を5秒見せてね。疲れ具合、測るよ。
+          </p>
 
-            {/* Divider */}
-            <div className="flex items-center gap-4 my-10">
-              <div className="flex-1 h-px bg-stone-300" />
-              <div className="w-1.5 h-1.5 bg-stone-400 rotate-45" />
-              <div className="flex-1 h-px bg-stone-300" />
+          {/* Camera - compact */}
+          <div className="w-full max-w-[280px] aspect-[4/3] rounded-2xl overflow-hidden mb-5"
+               style={{ background: '#ece4d8', border: '2px solid #e0d4c4' }}>
+            <FatigueScanner onResult={(r) => { setScanning(false); setResult(r); }} />
+          </div>
+
+          {/* Trust line */}
+          <p className="text-[10px] tracking-wider" style={{ color: '#c8b8a4' }}>
+            映像は送信しません / 論文ベース
+          </p>
+        </div>
+      ) : (
+        <div className="flex-1 flex flex-col items-center justify-center px-6">
+          <Mascot state={result.fatigueScore >= 50 ? 'tired' : 'ok'} />
+          <div className="mt-4 text-center">
+            <div className="text-xs mb-1" style={{ color: '#a89880' }}>疲労度</div>
+            <div className="text-5xl font-bold" style={{
+              color: result.fatigueScore >= 70 ? '#c85a50' : result.fatigueScore >= 40 ? '#c8a050' : '#6aac7a',
+              fontFamily: '"JetBrains Mono", monospace'
+            }}>
+              {result.fatigueScore}
             </div>
-
-            {/* Sample reading */}
-            <section className="mb-10">
-              <div className="text-xs text-stone-400 tracking-[0.2em] mb-4 text-center">測 定 例</div>
-              <div className="bg-white/60 backdrop-blur-sm rounded-lg p-6 border border-stone-200/60">
-                <div className="flex justify-between items-baseline mb-4">
-                  <span className="text-stone-500 text-sm">疲労度</span>
-                  <div>
-                    <span className="text-4xl font-light text-stone-800" style={{ fontFamily: '"JetBrains Mono", monospace' }}>73</span>
-                    <span className="text-stone-400 text-sm ml-1">/100</span>
-                  </div>
-                </div>
-                <div className="w-full h-1 bg-stone-200 rounded-full mb-6">
-                  <div className="h-1 rounded-full" style={{ width: '73%', background: 'linear-gradient(90deg, #c53d43, #8b2329)' }} />
-                </div>
-                <div className="grid grid-cols-3 gap-4 text-center">
-                  <div>
-                    <div className="text-[10px] text-stone-400 tracking-wider">推定睡眠</div>
-                    <div className="text-lg text-stone-700 mt-1" style={{ fontFamily: 'monospace' }}>1.8<span className="text-xs text-stone-400">h</span></div>
-                  </div>
-                  <div>
-                    <div className="text-[10px] text-stone-400 tracking-wider">眠気度</div>
-                    <div className="text-lg text-stone-700 mt-1" style={{ fontFamily: 'monospace' }}>7.9<span className="text-xs text-stone-400">/9</span></div>
-                  </div>
-                  <div>
-                    <div className="text-[10px] text-stone-400 tracking-wider">目の下</div>
-                    <div className="text-lg text-stone-700 mt-1" style={{ fontFamily: 'monospace' }}>99<span className="text-xs text-stone-400">%</span></div>
-                  </div>
-                </div>
-                <div className="text-center mt-4">
-                  <span className="text-xs px-3 py-1 rounded-full" style={{ color: '#c53d43', background: '#c53d4310' }}>
-                    休息を推奨
-                  </span>
-                </div>
-              </div>
-            </section>
-
-            {/* How it works - minimal */}
-            <section className="mb-10">
-              <div className="text-xs text-stone-400 tracking-[0.2em] mb-4 text-center">仕 組 み</div>
-              <div className="space-y-3">
-                {[
-                  { n: '一', title: '撮影', desc: 'カメラに五秒間向けます' },
-                  { n: '二', title: '解析', desc: '八つの生体信号をAIが読み取ります' },
-                  { n: '三', title: '結果', desc: '疲労度と具体的なアドバイスをお渡しします' },
-                ].map(({ n, title, desc }) => (
-                  <div key={n} className="flex items-start gap-4">
-                    <div className="w-8 h-8 rounded-full border border-stone-300 flex items-center justify-center text-stone-500 text-sm shrink-0 mt-0.5">
-                      {n}
-                    </div>
-                    <div>
-                      <div className="text-stone-700 text-sm font-medium">{title}</div>
-                      <div className="text-stone-400 text-xs mt-0.5">{desc}</div>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </section>
-
-            {/* Trust */}
-            <footer className="text-center space-y-2 pb-8">
-              <div className="text-[10px] text-stone-400 tracking-wider">
-                映像はサーバーに送信されません
-              </div>
-              <div className="text-[9px] text-stone-300">
-                Dinges 1998 / Caffier 2003 / Borbely 1982
-              </div>
-            </footer>
-          </>
-        ) : (
-          <FatigueReceipt result={result} onReset={() => setResult(null)} />
-        )}
-      </div>
+            <div className="text-xs mt-2 mb-4" style={{ color: '#8a7a68' }}>
+              {result.recommendation}
+            </div>
+            <button onClick={() => setResult(null)}
+                    className="text-xs px-5 py-2 rounded-full"
+                    style={{ background: '#e8dcd0', color: '#6a5a48' }}>
+              もう一回
+            </button>
+          </div>
+        </div>
+      )}
     </main>
   );
 }

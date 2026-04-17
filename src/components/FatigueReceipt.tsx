@@ -114,13 +114,8 @@ export default function FatigueReceipt({ result, onReset }: Props) {
         className="bg-gray-950 border border-gray-800 rounded-2xl p-6 shadow-2xl animate-[fadeSlideUp_0.6s_ease-out]"
         style={{ animation: 'fadeSlideUp 0.6s ease-out' }}
       >
-        {/* Header with emoji face */}
+        {/* Header */}
         <div className="text-center border-b border-dashed border-gray-700 pb-4 mb-4">
-          <div className="text-4xl mb-2" style={{ animation: 'fadeSlideUp 0.4s ease-out' }}>
-            {result.fatigueScore >= 70 ? '(=_=) zzZ' :
-             result.fatigueScore >= 50 ? '(-_-)' :
-             result.fatigueScore >= 30 ? '(-.-)' : '(^_^)'}
-          </div>
           <h2 className="text-xl font-bold text-white tracking-wider">FATIGUE RECEIPT</h2>
           <p className="text-gray-500 text-xs mt-1 font-mono">{dateStr}</p>
         </div>

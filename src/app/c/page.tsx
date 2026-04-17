@@ -6,135 +6,112 @@ import type { FatigueResult } from '@/lib/fatigue-engine';
 
 const FatigueScanner = dynamic(() => import('@/components/FatigueScanner'), {
   ssr: false,
-  loading: () => (
-    <div className="w-full aspect-[4/3] rounded-3xl flex items-center justify-center" style={{ background: 'rgba(255,255,255,0.5)', backdropFilter: 'blur(20px)', border: '1px solid rgba(255,255,255,0.3)' }}>
-      <div className="text-gray-400 text-sm">読み込み中</div>
-    </div>
-  ),
+  loading: () => <div className="w-full h-full rounded-3xl" style={{ background: '#151a2e' }} />,
 });
-
 const FatigueReceipt = dynamic(() => import('@/components/FatigueReceipt'), { ssr: false });
+
+/* ── Pattern C: データビジュアル型 (Oura完全模倣) ──
+   Deep navy, color = meaning, ring charts, large numbers.
+   Premium/professional. Oura + Apple Health hybrid.
+   One big score. Supporting data on tap. */
+
+function ScoreRing({ score, size = 160 }: { score: number; size?: number }) {
+  const r = (size - 12) / 2;
+  const circumference = 2 * Math.PI * r;
+  const offset = circumference - (score / 100) * circumference;
+  const color = score >= 70 ? '#E85D75' : score >= 40 ? '#F5A623' : '#4CAF82';
+
+  return (
+    <svg width={size} height={size} className="-rotate-90">
+      <circle cx={size/2} cy={size/2} r={r} fill="none" stroke="#1a1f2e" strokeWidth="6" />
+      <circle cx={size/2} cy={size/2} r={r} fill="none" stroke={color} strokeWidth="6"
+              strokeDasharray={circumference} strokeDashoffset={offset}
+              strokeLinecap="round" style={{ transition: 'stroke-dashoffset 1.5s ease-out' }} />
+    </svg>
+  );
+}
 
 export default function PatternC() {
   const [result, setResult] = useState<FatigueResult | null>(null);
 
   return (
-    <main className="min-h-screen relative overflow-hidden" style={{ background: '#f5f0eb' }}>
-      {/* Background blobs */}
-      <div className="fixed inset-0 pointer-events-none">
-        <div className="absolute -top-20 -right-20 w-80 h-80 rounded-full opacity-30" style={{ background: 'radial-gradient(circle, #ddd0f7, transparent)' }} />
-        <div className="absolute top-1/3 -left-20 w-60 h-60 rounded-full opacity-20" style={{ background: 'radial-gradient(circle, #f7d0d0, transparent)' }} />
-        <div className="absolute bottom-0 right-0 w-96 h-96 rounded-full opacity-15" style={{ background: 'radial-gradient(circle, #d0e7f7, transparent)' }} />
-      </div>
+    <main className="h-[100dvh] flex flex-col overflow-hidden"
+          style={{ background: '#0a0d14', color: '#e8e6e1', fontFamily: 'Inter, "Noto Sans JP", sans-serif' }}>
 
-      <div className="relative max-w-md mx-auto px-5 py-10">
-        {!result ? (
-          <>
-            {/* Header */}
-            <header className="text-center mb-8">
-              {/* Custom SVG mark */}
-              <div className="inline-flex items-center justify-center w-14 h-14 rounded-2xl mb-4" style={{ background: 'rgba(255,255,255,0.6)', backdropFilter: 'blur(10px)', border: '1px solid rgba(255,255,255,0.4)' }}>
-                <svg viewBox="0 0 32 32" className="w-7 h-7" fill="none">
-                  <path d="M8 16 Q12 19 16 16 Q20 13 24 16" stroke="#8b7ec8" strokeWidth="2.5" strokeLinecap="round"/>
-                  <circle cx="11" cy="18" r="0.8" fill="#8b7ec8"/>
-                  <circle cx="16" cy="15" r="0.8" fill="#8b7ec8"/>
-                  <circle cx="21" cy="18" r="0.8" fill="#8b7ec8"/>
+      {!result ? (
+        <div className="flex-1 flex flex-col">
+          {/* Header bar */}
+          <div className="flex items-center justify-between px-5 pt-14 pb-3">
+            <div className="flex items-center gap-2">
+              <div className="w-7 h-7 rounded-lg flex items-center justify-center" style={{ background: '#1a1f2e' }}>
+                <svg viewBox="0 0 20 20" className="w-4 h-4" fill="none">
+                  <circle cx="10" cy="10" r="7" stroke="#7B61FF" strokeWidth="1.5"/>
+                  <path d="M7 10h6" stroke="#7B61FF" strokeWidth="1.5" strokeLinecap="round"/>
                 </svg>
               </div>
-              <h1 className="text-2xl font-semibold tracking-tight mb-2" style={{ color: '#2a2520', fontFamily: '"Noto Sans JP", sans-serif' }}>
-                つかれみる
-              </h1>
-              <p className="text-sm leading-relaxed" style={{ color: '#8a8078', letterSpacing: '0.03em', lineHeight: '1.7' }}>
-                カメラに5秒向けるだけ。<br />
-                あなたの疲れを、数字にします。
-              </p>
-            </header>
+              <span className="text-sm font-medium tracking-wide">つかれみる</span>
+            </div>
+            <div className="text-[9px] tracking-[0.1em]" style={{ color: '#4a473f' }}>v1.0</div>
+          </div>
 
-            {/* Scanner */}
-            <div className="mb-8">
+          {/* Camera - main area */}
+          <div className="flex-1 px-4 pb-3">
+            <div className="w-full h-full rounded-3xl overflow-hidden" style={{ background: '#111620' }}>
               <FatigueScanner onResult={setResult} />
             </div>
+          </div>
 
-            {/* Glass card - sample result */}
-            <section className="mb-8">
-              <div className="text-xs tracking-wider mb-3 text-center" style={{ color: '#b0a898' }}>
-                こんな結果が出ます
+          {/* Bottom bar */}
+          <div className="px-5 pb-8 pt-2">
+            <div className="flex items-center justify-center gap-3">
+              <svg viewBox="0 0 16 16" className="w-3.5 h-3.5" style={{ color: '#4a473f' }}>
+                <rect x="2" y="6" width="12" height="8" rx="2" stroke="currentColor" strokeWidth="1.5" fill="none"/>
+                <path d="M5 6V4a3 3 0 016 0v2" stroke="currentColor" strokeWidth="1.5" fill="none"/>
+              </svg>
+              <span className="text-[10px]" style={{ color: '#4a473f' }}>ブラウザ内処理 / 論文ベース</span>
+            </div>
+          </div>
+        </div>
+      ) : (
+        /* Result screen - Oura style ring + data */
+        <div className="flex-1 flex flex-col items-center justify-center px-6">
+          {/* Ring with score in center */}
+          <div className="relative mb-6">
+            <ScoreRing score={result.fatigueScore} size={180} />
+            <div className="absolute inset-0 flex flex-col items-center justify-center">
+              <div className="text-[10px] tracking-[0.15em] mb-1" style={{ color: '#6b6860' }}>FATIGUE</div>
+              <div className="text-4xl font-light" style={{ fontFamily: '"JetBrains Mono", monospace' }}>
+                {result.fatigueScore}
               </div>
-              <div className="rounded-3xl p-6" style={{ background: 'rgba(255,255,255,0.55)', backdropFilter: 'blur(20px)', border: '1px solid rgba(255,255,255,0.4)', boxShadow: '0 8px 32px rgba(0,0,0,0.04)' }}>
-                {/* Main score */}
-                <div className="text-center mb-5">
-                  <div className="text-xs tracking-wider mb-1" style={{ color: '#b0a898' }}>疲労度</div>
-                  <div className="flex items-baseline justify-center">
-                    <span className="text-6xl font-light" style={{ fontFamily: '"JetBrains Mono", monospace', color: '#c8584c' }}>73</span>
-                    <span className="text-lg ml-1" style={{ color: '#c8b8a8' }}>/100</span>
-                  </div>
-                </div>
+            </div>
+          </div>
 
-                {/* Gradient bar */}
-                <div className="w-full h-1.5 rounded-full mb-6" style={{ background: '#ede8e2' }}>
-                  <div className="h-1.5 rounded-full" style={{ width: '73%', background: 'linear-gradient(90deg, #8bc8a0, #c8b84c, #c8584c)' }} />
-                </div>
+          {/* Sub metrics - horizontal */}
+          <div className="flex gap-5 mb-6">
+            {[
+              { label: '睡眠', value: `${result.estimatedSleepHours}h`, color: '#7B61FF' },
+              { label: '眠気', value: `${result.kss}/9`, color: '#F5A623' },
+              { label: '目の下', value: `${Math.round(result.components['Dark Circles'] * 100)}%`, color: '#6282E3' },
+            ].map(({ label, value, color }) => (
+              <div key={label} className="text-center">
+                <div className="text-[9px] tracking-wider mb-1" style={{ color: '#4a473f' }}>{label}</div>
+                <div className="text-base font-light" style={{ fontFamily: 'monospace', color }}>{value}</div>
+              </div>
+            ))}
+          </div>
 
-                {/* Sub metrics in glass pills */}
-                <div className="flex gap-2 justify-center flex-wrap">
-                  {[
-                    { label: '推定睡眠', value: '1.8h', color: '#7b6ec8' },
-                    { label: '眠気', value: '7.9/9', color: '#c8964c' },
-                    { label: '目の下', value: '99%', color: '#6282e3' },
-                  ].map(({ label, value, color }) => (
-                    <div key={label} className="rounded-full px-4 py-2" style={{ background: 'rgba(255,255,255,0.5)', border: '1px solid rgba(255,255,255,0.3)' }}>
-                      <div className="text-[9px] tracking-wider" style={{ color: '#b0a898' }}>{label}</div>
-                      <div className="text-sm font-medium" style={{ fontFamily: 'monospace', color }}>{value}</div>
-                    </div>
-                  ))}
-                </div>
+          {/* Recommendation */}
+          <div className="text-xs text-center mb-6" style={{ color: '#6b6860', maxWidth: '260px', lineHeight: '1.7' }}>
+            {result.recommendation}
+          </div>
 
-                <div className="text-center mt-4">
-                  <span className="text-xs" style={{ color: '#c8584c' }}>休息を推奨します</span>
-                </div>
-              </div>
-            </section>
-
-            {/* Process - floating cards */}
-            <section className="mb-8">
-              <div className="text-xs tracking-wider mb-3 text-center" style={{ color: '#b0a898' }}>
-                しくみ
-              </div>
-              <div className="flex gap-3 justify-center">
-                {[
-                  { icon: 'M4 8h24M4 8l4-4h12l4 4M8 8v16a2 2 0 002 2h8a2 2 0 002-2V8', title: '撮影', sub: '5秒' },
-                  { icon: 'M16 4a12 12 0 100 24 12 12 0 000-24M12 16h8', title: '解析', sub: 'AI' },
-                  { icon: 'M4 4h24v24H4zM8 20l6-8 4 5 6-7', title: '結果', sub: 'スコア' },
-                ].map(({ icon, title, sub }) => (
-                  <div key={title} className="flex-1 rounded-2xl p-4 text-center" style={{ background: 'rgba(255,255,255,0.4)', backdropFilter: 'blur(10px)', border: '1px solid rgba(255,255,255,0.3)' }}>
-                    <svg viewBox="0 0 32 32" className="w-6 h-6 mx-auto mb-2" fill="none">
-                      <path d={icon} stroke="#8b7ec8" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-                    </svg>
-                    <div className="text-xs font-medium" style={{ color: '#4a4540' }}>{title}</div>
-                    <div className="text-[10px] mt-0.5" style={{ color: '#b0a898' }}>{sub}</div>
-                  </div>
-                ))}
-              </div>
-            </section>
-
-            {/* Trust */}
-            <footer className="text-center space-y-2 pb-8">
-              <div className="inline-flex items-center gap-1.5 rounded-full px-3 py-1.5" style={{ background: 'rgba(255,255,255,0.4)', border: '1px solid rgba(255,255,255,0.3)' }}>
-                <svg viewBox="0 0 16 16" className="w-3 h-3" style={{ color: '#8b7ec8' }}>
-                  <rect x="2" y="6" width="12" height="8" rx="2" stroke="currentColor" strokeWidth="1.5" fill="none" />
-                  <path d="M5 6V4a3 3 0 0 1 6 0v2" stroke="currentColor" strokeWidth="1.5" fill="none" />
-                </svg>
-                <span className="text-[10px]" style={{ color: '#8a8078' }}>データはブラウザ内で処理</span>
-              </div>
-              <div className="text-[9px]" style={{ color: '#c8c0b8' }}>
-                学術論文ベース / OSS
-              </div>
-            </footer>
-          </>
-        ) : (
-          <FatigueReceipt result={result} onReset={() => setResult(null)} />
-        )}
-      </div>
+          <button onClick={() => setResult(null)}
+                  className="text-xs px-5 py-2 rounded-full transition-colors"
+                  style={{ background: '#1a1f2e', color: '#8a8580' }}>
+            もう一度
+          </button>
+        </div>
+      )}
     </main>
   );
 }

@@ -51,6 +51,9 @@ export default function RootLayout({
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
       <head>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
+        <link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@400;500;700&family=Noto+Sans+JP:wght@400;500;700&family=Noto+Serif+JP:wght@400;500&family=JetBrains+Mono:wght@300;400&display=swap" rel="stylesheet" />
         <link rel="manifest" href="/tsukaremiru/manifest.json" />
         <link rel="apple-touch-icon" href="/tsukaremiru/icon-192.png" />
         <meta name="theme-color" content="#000000" />

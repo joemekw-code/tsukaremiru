@@ -211,7 +211,7 @@ export default function FatigueScanner({ onResult }: Props) {
               </div>
             </div>
             <div className="absolute bottom-4 text-indigo-500 text-xs font-medium bg-white/80 px-3 py-1 rounded-full backdrop-blur-sm">
-              解析中... 🔍
+              解析中
             </div>
           </div>
         )}
@@ -219,8 +219,8 @@ export default function FatigueScanner({ onResult }: Props) {
         {state === 'loading' && (
           <div className="absolute inset-0 flex items-center justify-center bg-indigo-50">
             <div className="text-center">
-              <div className="text-4xl mb-3" style={{ animation: 'float 2s ease-in-out infinite' }}>🔍</div>
-              <div className="text-indigo-400 text-sm font-medium">AIモデル読み込み中...</div>
+              <div className="w-10 h-10 border-2 border-indigo-200 border-t-indigo-400 rounded-full animate-spin mx-auto mb-3" />
+              <div className="text-indigo-400 text-sm font-medium">読み込み中</div>
               <div className="text-gray-400 text-xs mt-1">初回のみ数秒かかります</div>
             </div>
           </div>
@@ -229,9 +229,12 @@ export default function FatigueScanner({ onResult }: Props) {
         {(state === 'idle' || state === 'ready') && !error && (
           <div className="absolute inset-0 flex items-center justify-center bg-indigo-50/80">
             <div className="text-center px-6">
-              <div className="text-5xl mb-3" style={{ animation: 'float 3s ease-in-out infinite' }}>😮‍💨</div>
-              <div className="text-indigo-500 text-sm font-medium mb-1">カメラに5秒間向けてね</div>
-              <div className="text-gray-400 text-xs">あなたの疲れ具合を測ります</div>
+              <svg viewBox="0 0 48 48" className="w-12 h-12 mx-auto mb-3" fill="none">
+                <circle cx="24" cy="24" r="20" stroke="#c7d2fe" strokeWidth="1.5"/>
+                <path d="M15 24 Q19 26 23 24" stroke="#818cf8" strokeWidth="2" strokeLinecap="round"/>
+                <path d="M25 24 Q29 26 33 24" stroke="#818cf8" strokeWidth="2" strokeLinecap="round"/>
+              </svg>
+              <div className="text-indigo-500 text-sm font-medium mb-1">カメラに5秒向けてください</div>
             </div>
           </div>
         )}
@@ -252,7 +255,7 @@ export default function FatigueScanner({ onResult }: Props) {
                        active:scale-95 text-lg"
             style={{ animation: 'pulse-glow 2s ease-in-out infinite' }}
           >
-            📷 スキャンしてみる
+            スキャンする
           </button>
           <div className="text-gray-400 text-xs">
             あと{remaining}回無料で使えます
@@ -262,7 +265,7 @@ export default function FatigueScanner({ onResult }: Props) {
 
       {state === 'limit' && (
         <div className="text-center space-y-3">
-          <div className="text-4xl mb-2">😴</div>
+          <div className="text-sm mb-2">zzz</div>
           <div className="text-orange-500 text-sm font-medium">
             今週の無料回数を使い切りました
           </div>
