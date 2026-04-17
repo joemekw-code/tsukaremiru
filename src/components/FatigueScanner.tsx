@@ -279,7 +279,7 @@ export default function FatigueScanner({ onResult }: Props) {
             今週の無料スキャン回数（3回）を使い切りました
           </div>
           <a
-            href="https://buy.stripe.com/test_placeholder"
+            href="https://buy.stripe.com/test_6oU00bbzA5ZJ2pIfW70VO00"
             target="_blank"
             rel="noopener noreferrer"
             className="inline-block px-6 py-3 bg-white text-black font-bold rounded-xl
