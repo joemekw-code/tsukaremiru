@@ -1,5 +1,5 @@
 const STORAGE_KEY = 'tsukaremiru_scans';
-const FREE_LIMIT = 3;
+const FREE_LIMIT = 9999; // unlimited until we have users
 const WEEK_MS = 7 * 24 * 60 * 60 * 1000;
 
 interface ScanLog {
