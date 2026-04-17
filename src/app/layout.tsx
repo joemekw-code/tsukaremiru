@@ -20,11 +20,18 @@ export const metadata: Metadata = {
     description: "顔は嘘をつかない。カメラで5秒スキャンするだけで疲労度がわかる。",
     type: "website",
     url: "https://joemekw-code.github.io/tsukaremiru/",
+    images: [{
+      url: "https://joemekw-code.github.io/tsukaremiru/og-image.png",
+      width: 1200,
+      height: 630,
+      alt: "つかれみる - 5秒で疲労を数値化",
+    }],
   },
   twitter: {
     card: "summary_large_image",
     title: "つかれみる | 5秒で疲労を数値化",
     description: "顔は嘘をつかない。カメラで5秒スキャンするだけで疲労度がわかる。",
+    images: ["https://joemekw-code.github.io/tsukaremiru/og-image.png"],
   },
   other: {
     "theme-color": "#000000",
