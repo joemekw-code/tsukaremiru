@@ -257,9 +257,7 @@ export default function FatigueScanner({ onResult }: Props) {
           >
             スキャンする
           </button>
-          <div className="text-gray-400 text-xs">
-            あと{remaining}回無料で使えます
-          </div>
+          {/* scan count hidden */}
         </>
       )}
 

@@ -6,86 +6,118 @@ import type { FatigueResult } from '@/lib/fatigue-engine';
 
 const FatigueScanner = dynamic(() => import('@/components/FatigueScanner'), {
   ssr: false,
-  loading: () => <div className="absolute inset-0 bg-black" />,
+  loading: () => <div className="absolute inset-0" style={{ background: '#1a0a2e' }} />,
 });
 
-/* ── Pattern B: ねむみ — ストリート/Y2K ──
-   Persona: 同じ23歳だけど、もっとエッジーな方。
-   Emotion: 自虐ネタとして使う。「もう限界w」
-   Visual: ダーク、ネオンアクセント、太い文字、パンクな感じ */
+/* ── B: TikTok診断 ──
+   19歳。診断系大好き。ビビッド。一画面に一情報をドカン。
+   紫×ネオンピンク。グラデーション。大文字。 */
 
 export default function PatternB() {
   const [result, setResult] = useState<FatigueResult | null>(null);
 
   return (
-    <main className="h-[100dvh] relative overflow-hidden bg-black"
+    <main className="h-[100dvh] relative overflow-hidden"
           style={{ fontFamily: '"M PLUS Rounded 1c", sans-serif' }}>
 
       {!result ? (
         <>
-          {/* Camera fills everything */}
-          <div className="absolute inset-0">
-            <FatigueScanner onResult={setResult} />
-          </div>
+          {/* Background gradient */}
+          <div className="absolute inset-0" style={{
+            background: 'linear-gradient(160deg, #1a0a2e 0%, #2d1458 40%, #4a1a6b 70%, #1a0a2e 100%)'
+          }} />
 
-          {/* Top overlay */}
-          <div className="absolute top-0 left-0 right-0 z-10 pt-14 px-5"
-               style={{ background: 'linear-gradient(180deg, rgba(0,0,0,0.7) 0%, transparent 100%)' }}>
-            <h1 className="text-2xl font-bold text-white" style={{ letterSpacing: '-0.02em' }}>
-              ねむみ
-            </h1>
-            <p className="text-white/30 text-[10px] tracking-widest mt-0.5">
-              NEMUMI — FATIGUE CHECK
-            </p>
-          </div>
+          {/* Decorative blobs */}
+          <div className="absolute top-20 -right-20 w-60 h-60 rounded-full opacity-20"
+               style={{ background: 'radial-gradient(circle, #ff6b9d, transparent)' }} />
+          <div className="absolute bottom-40 -left-10 w-40 h-40 rounded-full opacity-15"
+               style={{ background: 'radial-gradient(circle, #6b6bff, transparent)' }} />
 
-          {/* Bottom overlay */}
-          <div className="absolute bottom-0 left-0 right-0 z-10 pb-10 px-5"
-               style={{ background: 'linear-gradient(0deg, rgba(0,0,0,0.8) 0%, transparent 100%)' }}>
-            <p className="text-white/40 text-xs text-center">
-              5秒見せて。疲れ度、出すから。
-            </p>
-            <div className="flex justify-center mt-3 gap-4 text-[9px] text-white/20">
-              <span>ブラウザ内処理</span>
-              <span>データ送信なし</span>
+          {/* Content */}
+          <div className="relative z-10 h-full flex flex-col items-center justify-between px-6 pt-16 pb-10">
+            {/* Top */}
+            <div className="text-center">
+              <div className="text-white/30 text-[10px] tracking-[0.3em] mb-2">FATIGUE DIAGNOSIS</div>
+              <h1 className="text-3xl font-bold text-white mb-2" style={{ letterSpacing: '-0.02em' }}>
+                あなたの<br />
+                <span style={{ color: '#ff6b9d' }}>ねむみ度</span>は？
+              </h1>
+              <p className="text-white/40 text-xs">カメラで5秒。AIが診断します。</p>
+            </div>
+
+            {/* Camera - circular */}
+            <div className="w-52 h-52 rounded-full overflow-hidden border-4"
+                 style={{ borderColor: '#ff6b9d40' }}>
+              <FatigueScanner onResult={setResult} />
+            </div>
+
+            {/* Bottom */}
+            <div className="text-center">
+              <p className="text-white/20 text-[9px] tracking-wider">
+                映像はどこにも保存されません
+              </p>
             </div>
           </div>
         </>
       ) : (
-        /* Result - bold, punchy */
-        <div className="h-full flex flex-col items-center justify-center px-6 bg-black">
-          <p className="text-white/30 text-xs tracking-widest mb-2">
-            {result.fatigueScore >= 60 ? '限界じゃん' : result.fatigueScore >= 35 ? 'まあまあ疲れてる' : 'まだいける'}
-          </p>
-          <div className="text-8xl font-bold text-white mb-1" style={{ fontFamily: '"JetBrains Mono", monospace', letterSpacing: '-0.05em' }}>
+        /* Result - full screen dramatic reveal */
+        <div className="h-full flex flex-col items-center justify-center px-6 relative" style={{
+          background: result.fatigueScore >= 60
+            ? 'linear-gradient(160deg, #2e0a0a, #4a1a1a, #2e0a0a)'
+            : result.fatigueScore >= 35
+            ? 'linear-gradient(160deg, #2e1a0a, #4a3a1a, #2e1a0a)'
+            : 'linear-gradient(160deg, #0a2e1a, #1a4a2a, #0a2e1a)'
+        }}>
+          {/* Diagnosis label */}
+          <div className="px-4 py-1.5 rounded-full mb-4 text-[10px] tracking-[0.2em]" style={{
+            background: result.fatigueScore >= 60 ? '#ff6b6b20' : result.fatigueScore >= 35 ? '#ffaa6b20' : '#6bff9d20',
+            color: result.fatigueScore >= 60 ? '#ff8888' : result.fatigueScore >= 35 ? '#ffcc88' : '#88ffaa'
+          }}>
+            {result.fatigueScore >= 60 ? '要注意レベル' : result.fatigueScore >= 35 ? 'ちょい疲れ' : '元気'}
+          </div>
+
+          {/* Giant score */}
+          <div className="text-[120px] font-bold text-white leading-none mb-2"
+               style={{ fontFamily: '"JetBrains Mono", monospace', textShadow: '0 0 40px rgba(255,255,255,0.1)' }}>
             {result.fatigueScore}
           </div>
-          <div className="w-32 h-1 rounded-full my-4" style={{ background: '#1a1a1a' }}>
-            <div className="h-1 rounded-full" style={{
-              width: `${result.fatigueScore}%`,
-              background: result.fatigueScore >= 60 ? '#ff6b6b' : result.fatigueScore >= 35 ? '#ffc078' : '#69db7c'
-            }} />
+          <div className="text-white/20 text-xs tracking-[0.3em] mb-6">NEMUMI SCORE</div>
+
+          {/* Stats row */}
+          <div className="flex gap-6 mb-8">
+            {[
+              { label: '睡眠', value: `${result.estimatedSleepHours}h` },
+              { label: '眠気', value: `${result.kss}/9` },
+              { label: 'クマ', value: `${Math.round(result.components['Dark Circles'] * 100)}%` },
+            ].map(({ label, value }) => (
+              <div key={label} className="text-center">
+                <div className="text-white/20 text-[9px] tracking-wider">{label}</div>
+                <div className="text-white/70 text-base font-medium" style={{ fontFamily: 'monospace' }}>{value}</div>
+              </div>
+            ))}
           </div>
 
-          <p className="text-white/25 text-xs text-center mb-8 max-w-[240px]" style={{ lineHeight: '1.7' }}>
-            {result.fatigueScore >= 60 ? 'もう寝な。明日の自分に謝ることになるよ。' :
-             result.fatigueScore >= 35 ? 'ギリいけるけど、そろそろ限界近いよ。' :
-             '全然余裕じゃん。好きにしな。'}
+          {/* Message */}
+          <p className="text-white/30 text-xs text-center mb-6 max-w-[260px]" style={{ lineHeight: '1.8' }}>
+            {result.fatigueScore >= 60 ? 'かなり疲れてるね。今日はもう寝た方がいいよ。' :
+             result.fatigueScore >= 35 ? 'ちょっと疲れ気味。もう少ししたら休もう。' :
+             'まだまだ元気！でもほどほどにね。'}
           </p>
 
+          {/* Actions */}
           <div className="flex gap-3">
             <button onClick={() => setResult(null)}
-                    className="text-xs px-5 py-2.5 rounded-full text-white/50"
-                    style={{ background: '#1a1a1a' }}>
+                    className="px-5 py-2.5 rounded-full text-xs text-white/40"
+                    style={{ background: 'rgba(255,255,255,0.05)' }}>
               もう一回
             </button>
             <button onClick={() => {
-              const text = `ねむみ${result.fatigueScore}点で${result.fatigueScore >= 60 ? '限界' : result.fatigueScore >= 35 ? 'そこそこ' : '余裕'}だった`;
-              window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(window.location.origin + '/b')}`, '_blank');
+              const t = `ねむみ診断 ${result.fatigueScore}点 — ${result.fatigueScore >= 60 ? '限界' : result.fatigueScore >= 35 ? 'ちょい疲れ' : '元気'}`;
+              window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(t)}&url=${encodeURIComponent(location.origin + '/b')}`, '_blank');
             }}
-                    className="text-xs px-5 py-2.5 rounded-full font-medium"
-                    style={{ background: '#ff6b6b', color: '#000' }}>
-              晒す
+                    className="px-5 py-2.5 rounded-full text-xs font-bold"
+                    style={{ background: '#ff6b9d', color: '#1a0a2e' }}>
+              診断結果をシェア
             </button>
           </div>
         </div>
