@@ -8,15 +8,11 @@ const FatigueScanner = dynamic(() => import('@/components/FatigueScanner'), {
   ssr: false,
   loading: () => (
     <div className="flex flex-col items-center gap-4">
-      <div className="w-full max-w-md aspect-[4/3] bg-gray-900 rounded-2xl flex items-center justify-center">
-        <div className="text-center text-gray-300">
-          <div className="text-4xl mb-3">📷</div>
-          <div className="text-sm mb-1">カメラに向かって5秒間じっとするだけ</div>
-          <div className="text-xs text-gray-500 animate-pulse mt-2">AIモデル読み込み中...</div>
+      <div className="w-full max-w-md aspect-[4/3] bg-indigo-50 rounded-3xl flex items-center justify-center border-2 border-indigo-100">
+        <div className="text-center">
+          <div className="text-5xl mb-3" style={{ animation: 'float 3s ease-in-out infinite' }}>😴</div>
+          <div className="text-indigo-400 text-sm">準備中...</div>
         </div>
-      </div>
-      <div className="px-8 py-3 bg-gray-700 text-gray-400 font-bold rounded-xl text-lg cursor-wait">
-        準備中...
       </div>
     </div>
   ),
@@ -30,28 +26,18 @@ export default function Home() {
   const [result, setResult] = useState<FatigueResult | null>(null);
 
   return (
-    <main className="min-h-screen text-white relative overflow-hidden"
-          style={{ background: 'linear-gradient(180deg, #0a0a0a 0%, #0d1117 40%, #0a0f0d 100%)' }}>
-      {/* Background glow effects */}
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[600px] rounded-full opacity-[0.07]"
-           style={{ background: 'radial-gradient(circle, #10b981 0%, transparent 70%)' }} />
-      <div className="absolute top-[400px] right-0 w-[300px] h-[300px] rounded-full opacity-[0.04]"
-           style={{ background: 'radial-gradient(circle, #3b82f6 0%, transparent 70%)' }} />
-
-      <div className="relative max-w-lg mx-auto px-4 py-8">
+    <main className="min-h-screen bg-[#faf9f7] text-gray-900">
+      <div className="max-w-lg mx-auto px-4 py-8">
         {/* Header */}
         <div className="text-center mb-6">
-          <div className="inline-block px-3 py-1 bg-emerald-950/50 border border-emerald-800/30 rounded-full text-emerald-400 text-xs mb-3">
-            Webcam AI Scanner
+          <div className="text-6xl mb-2" style={{ animation: 'float 3s ease-in-out infinite' }}>
+            😮‍💨
           </div>
-          <h1 className="text-4xl font-bold tracking-tight mb-2 bg-gradient-to-r from-white via-white to-emerald-200 bg-clip-text text-transparent">
+          <h1 className="text-3xl font-bold tracking-tight mb-1">
             つかれみる
           </h1>
-          <p className="text-gray-300 text-base mb-1">
-            顔は嘘をつかない。5秒で疲労を数値化。
-          </p>
-          <p className="text-gray-500 text-xs">
-            Oura Ringと同じことを、カメラだけで。無料。
+          <p className="text-gray-500 text-base">
+            カメラに5秒向けるだけ。あなたの疲れ、数字にします。
           </p>
         </div>
 
@@ -60,95 +46,94 @@ export default function Home() {
             {/* Scanner */}
             <FatigueScanner onResult={setResult} />
 
-            {/* Social proof / hook */}
+            {/* Fun use cases */}
             <div className="mt-8 space-y-3">
-              <div className="text-sm text-gray-400 font-medium px-1">
-                こんな時に使える
+              <div className="text-center text-sm text-gray-400 font-medium">
+                こんな時に使ってみて
               </div>
-              <div className="grid grid-cols-1 gap-2">
+              <div className="grid grid-cols-2 gap-2">
                 {[
-                  { icon: '💻', text: '深夜のデプロイ前に判断力チェック', tag: 'エンジニア' },
-                  { icon: '🏢', text: '「疲れてます」を数字で上司に証明', tag: '会社員' },
-                  { icon: '🎮', text: '徹夜ランク戦、まだ続けていいのか', tag: 'ゲーマー' },
-                  { icon: '📚', text: 'テスト前の追い込み、限界が知りたい', tag: '学生' },
-                ].map(({ icon, text, tag }) => (
-                  <div key={tag} className="flex items-center gap-3 bg-gray-900/60 border border-gray-800/50 rounded-xl px-4 py-3 hover:border-emerald-800/50 transition-colors">
-                    <span className="text-xl">{icon}</span>
-                    <span className="text-xs text-gray-400 flex-1">{text}</span>
-                    <span className="text-[10px] text-emerald-600 bg-emerald-950/50 px-2 py-0.5 rounded-full">{tag}</span>
+                  { emoji: '💻', text: 'デプロイ前の\n判断力チェック' },
+                  { emoji: '📱', text: '推しの配信見て\n寝落ちする前に' },
+                  { emoji: '🎮', text: '徹夜ランク戦\nまだいける？' },
+                  { emoji: '☕', text: 'コーヒー3杯目\nそろそろやばい？' },
+                ].map(({ emoji, text }) => (
+                  <div key={text} className="flex items-center gap-3 bg-white rounded-2xl px-4 py-3 border border-gray-100 shadow-sm hover:shadow-md transition-shadow">
+                    <span className="text-2xl">{emoji}</span>
+                    <span className="text-xs text-gray-600 whitespace-pre-line leading-tight">{text}</span>
                   </div>
                 ))}
               </div>
             </div>
 
-            {/* What you get */}
-            <div className="mt-6 space-y-4">
-              <h2 className="text-sm font-medium text-gray-300">
-                5秒でわかること
-              </h2>
-              <div className="grid grid-cols-2 gap-3">
-                <div className="bg-gray-900 rounded-lg p-3 border border-gray-800">
-                  <div className="text-emerald-400 text-lg font-bold font-mono">73/100</div>
-                  <div className="text-gray-500 text-xs mt-1">疲労度スコア</div>
+            {/* Sample result */}
+            <div className="mt-8">
+              <div className="text-center text-sm text-gray-400 font-medium mb-3">
+                こんな結果が出るよ
+              </div>
+              <div className="bg-white rounded-2xl p-5 border border-gray-100 shadow-sm">
+                <div className="flex items-center justify-between mb-3">
+                  <span className="text-3xl">😵</span>
+                  <div className="text-right">
+                    <div className="text-xs text-gray-400">疲労度</div>
+                    <div className="text-3xl font-bold text-red-400 font-mono">73<span className="text-base text-gray-300">/100</span></div>
+                  </div>
                 </div>
-                <div className="bg-gray-900 rounded-lg p-3 border border-gray-800">
-                  <div className="text-orange-400 text-lg font-bold font-mono">1.8h</div>
-                  <div className="text-gray-500 text-xs mt-1">推定睡眠時間</div>
+                <div className="w-full bg-gray-100 rounded-full h-2 mb-4">
+                  <div className="bg-gradient-to-r from-yellow-400 via-orange-400 to-red-400 h-2 rounded-full" style={{ width: '73%' }} />
                 </div>
-                <div className="bg-gray-900 rounded-lg p-3 border border-gray-800">
-                  <div className="text-red-400 text-lg font-bold font-mono">7.9/9</div>
-                  <div className="text-gray-500 text-xs mt-1">KSS 眠気スケール</div>
+                <div className="grid grid-cols-3 gap-2 text-center">
+                  <div className="bg-gray-50 rounded-xl p-2">
+                    <div className="text-xs text-gray-400">推定睡眠</div>
+                    <div className="font-bold text-gray-700 font-mono">1.8h</div>
+                  </div>
+                  <div className="bg-gray-50 rounded-xl p-2">
+                    <div className="text-xs text-gray-400">眠気</div>
+                    <div className="font-bold text-orange-400 font-mono">7.9/9</div>
+                  </div>
+                  <div className="bg-gray-50 rounded-xl p-2">
+                    <div className="text-xs text-gray-400">クマ度</div>
+                    <div className="font-bold text-purple-400 font-mono">99%</div>
+                  </div>
                 </div>
-                <div className="bg-gray-900 rounded-lg p-3 border border-gray-800">
-                  <div className="text-yellow-400 text-lg font-bold font-mono">84%</div>
-                  <div className="text-gray-500 text-xs mt-1">クマ検出度</div>
+                <div className="mt-3 text-center text-xs text-red-400 font-medium">
+                  → 今すぐ寝てください 🛏️
+                </div>
+                <div className="mt-2 text-center text-[10px] text-gray-300">
+                  ↑ 徹夜した開発者の実測値
                 </div>
               </div>
-              <p className="text-gray-600 text-xs text-center">
-                ↑ 睡眠0時間の開発者の実測値
-              </p>
             </div>
 
             {/* How it works */}
             <div className="mt-8">
-              <h2 className="text-sm font-medium text-gray-300 mb-3">仕組み</h2>
-              <div className="space-y-3">
-                <div className="flex gap-3 items-start">
-                  <div className="w-6 h-6 rounded-full bg-emerald-500/20 text-emerald-400 text-xs flex items-center justify-center shrink-0 mt-0.5">1</div>
-                  <div>
-                    <div className="text-sm text-gray-300">カメラで5秒スキャン</div>
-                    <div className="text-xs text-gray-600">映像はサーバーに送信されません</div>
+              <div className="text-center text-sm text-gray-400 font-medium mb-3">
+                しくみ
+              </div>
+              <div className="flex justify-center gap-3">
+                {[
+                  { emoji: '📷', text: 'カメラで\n5秒' },
+                  { emoji: '🧠', text: 'AIが\n解析' },
+                  { emoji: '📊', text: '結果\nGET' },
+                ].map(({ emoji, text }, i) => (
+                  <div key={text} className="flex flex-col items-center gap-1">
+                    <div className="w-16 h-16 bg-white rounded-2xl border border-gray-100 shadow-sm flex items-center justify-center text-2xl">
+                      {emoji}
+                    </div>
+                    <div className="text-[10px] text-gray-400 text-center whitespace-pre-line">{text}</div>
+                    {i < 2 && <div className="absolute" />}
                   </div>
-                </div>
-                <div className="flex gap-3 items-start">
-                  <div className="w-6 h-6 rounded-full bg-emerald-500/20 text-emerald-400 text-xs flex items-center justify-center shrink-0 mt-0.5">2</div>
-                  <div>
-                    <div className="text-sm text-gray-300">8つの生体信号をAI解析</div>
-                    <div className="text-xs text-gray-600">PERCLOS、瞬き持続時間、クマ色差、サーカディアンモデル等</div>
-                  </div>
-                </div>
-                <div className="flex gap-3 items-start">
-                  <div className="w-6 h-6 rounded-full bg-emerald-500/20 text-emerald-400 text-xs flex items-center justify-center shrink-0 mt-0.5">3</div>
-                  <div>
-                    <div className="text-sm text-gray-300">疲労レシートを受け取る</div>
-                    <div className="text-xs text-gray-600">スコア、推定睡眠、判定、具体的な行動アドバイス</div>
-                  </div>
-                </div>
+                ))}
               </div>
             </div>
 
             {/* Trust */}
-            <div className="mt-8 text-center space-y-2">
-              <div className="text-xs text-gray-500">
-                学術論文ベースのアルゴリズム
+            <div className="mt-8 text-center space-y-2 pb-8">
+              <div className="inline-flex items-center gap-1 bg-green-50 text-green-600 text-xs px-3 py-1 rounded-full">
+                <span>🔒</span> データはブラウザ内で処理。サーバーに送信しません
               </div>
-              <div className="flex justify-center gap-4 text-xs text-gray-700">
-                <span>Dinges 1998</span>
-                <span>Caffier 2003</span>
-                <span>Borbely 1982</span>
-              </div>
-              <div className="text-xs text-gray-700 mt-2">
-                全処理ブラウザ内完結 / データ送信なし / オープンソース
+              <div className="text-[10px] text-gray-300">
+                学術論文ベース (Dinges 1998, Caffier 2003, Borbely 1982)
               </div>
             </div>
           </>

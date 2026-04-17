@@ -71,7 +71,7 @@ export default function RootLayout({
           }}
         />
       </head>
-      <body className="min-h-full flex flex-col bg-black">{children}</body>
+      <body className="min-h-full flex flex-col bg-[#faf9f7]">{children}</body>
     </html>
   );
 }
