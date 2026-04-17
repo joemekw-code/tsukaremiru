@@ -1,7 +1,8 @@
 'use client';
 
-import { useRef, useCallback } from 'react';
+import { useRef, useCallback, useState } from 'react';
 import type { FatigueResult } from '@/lib/fatigue-engine';
+import { generateReceiptImage } from '@/lib/receipt-image';
 
 interface Props {
   result: FatigueResult;
@@ -44,14 +45,61 @@ function getKSSLabel(kss: number): string {
 
 export default function FatigueReceipt({ result, onReset }: Props) {
   const receiptRef = useRef<HTMLDivElement>(null);
+  const [sharing, setSharing] = useState(false);
+
+  const getShareText = useCallback(() => {
+    const url = 'https://joemekw-code.github.io/tsukaremiru/';
+    return `疲労度: ${result.fatigueScore}/100 | 推定睡眠: ${result.estimatedSleepHours}h | 寝るべき度: ${result.shouldSleepScore}/100\n\n顔は嘘をつかない。5秒でわかる疲労チェック\n${url}`;
+  }, [result]);
+
+  const shareNative = useCallback(async () => {
+    setSharing(true);
+    try {
+      const blob = await generateReceiptImage(result);
+      const file = new File([blob], 'fatigue-receipt.png', { type: 'image/png' });
+
+      if (navigator.share && navigator.canShare?.({ files: [file] })) {
+        await navigator.share({
+          text: getShareText(),
+          files: [file],
+        });
+      } else {
+        // Fallback: download image + open twitter intent
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'fatigue-receipt.png';
+        a.click();
+        URL.revokeObjectURL(url);
+
+        // Also open Twitter
+        window.open(
+          `https://twitter.com/intent/tweet?text=${encodeURIComponent(getShareText())}`,
+          '_blank'
+        );
+      }
+    } catch {
+      // User cancelled share or error
+    } finally {
+      setSharing(false);
+    }
+  }, [result, getShareText]);
 
   const shareToTwitter = useCallback(() => {
-    const text = `疲労度: ${result.fatigueScore}/100 | 推定睡眠: ${result.estimatedSleepHours}h | 寝るべき度: ${result.shouldSleepScore}/100\n\n顔は嘘をつかない。5秒でわかる疲労チェック`;
-    const url = typeof window !== 'undefined' ? window.location.origin : '';
     window.open(
-      `https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(url)}`,
+      `https://twitter.com/intent/tweet?text=${encodeURIComponent(getShareText())}`,
       '_blank'
     );
+  }, [getShareText]);
+
+  const downloadImage = useCallback(async () => {
+    const blob = await generateReceiptImage(result);
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'fatigue-receipt.png';
+    a.click();
+    URL.revokeObjectURL(url);
   }, [result]);
 
   const date = new Date(result.timestamp);
