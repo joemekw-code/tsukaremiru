@@ -15,8 +15,8 @@ function Bar({ value, max = 100, color }: { value: number; max?: number; color: 
   return (
     <div className="w-full bg-gray-800 rounded-full h-3 overflow-hidden">
       <div
-        className={`h-full rounded-full transition-all duration-700 ${color}`}
-        style={{ width: `${pct}%` }}
+        className={`h-full rounded-full ${color}`}
+        style={{ width: `${pct}%`, animation: 'barGrow 0.8s ease-out' }}
       />
     </div>
   );

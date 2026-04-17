@@ -190,17 +190,40 @@ export default function FatigueScanner({ onResult }: Props) {
         <canvas ref={canvasRef} className="hidden" />
 
         {state === 'scanning' && (
-          <div className="absolute inset-0 flex flex-col items-center justify-center">
-            <div className="absolute top-4 left-4 right-4">
-              <div className="bg-gray-800/70 rounded-full h-2 overflow-hidden">
-                <div
-                  className="bg-emerald-400 h-full transition-all duration-200 rounded-full"
-                  style={{ width: `${progress}%` }}
+          <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
+            {/* Scanning overlay with animated corners */}
+            <div className="absolute inset-8 border-2 border-emerald-400/50 rounded-xl">
+              <div className="absolute -top-0.5 -left-0.5 w-6 h-6 border-t-2 border-l-2 border-emerald-400 rounded-tl-lg" />
+              <div className="absolute -top-0.5 -right-0.5 w-6 h-6 border-t-2 border-r-2 border-emerald-400 rounded-tr-lg" />
+              <div className="absolute -bottom-0.5 -left-0.5 w-6 h-6 border-b-2 border-l-2 border-emerald-400 rounded-bl-lg" />
+              <div className="absolute -bottom-0.5 -right-0.5 w-6 h-6 border-b-2 border-r-2 border-emerald-400 rounded-br-lg" />
+            </div>
+            {/* Scan line animation */}
+            <div
+              className="absolute left-8 right-8 h-0.5 bg-gradient-to-r from-transparent via-emerald-400 to-transparent"
+              style={{
+                top: `${8 + (progress / 100) * 84}%`,
+                opacity: 0.8,
+                transition: 'top 0.3s linear',
+              }}
+            />
+            {/* Progress ring */}
+            <div className="relative w-20 h-20">
+              <svg className="w-20 h-20 -rotate-90" viewBox="0 0 80 80">
+                <circle cx="40" cy="40" r="36" fill="none" stroke="#1f2937" strokeWidth="4" />
+                <circle
+                  cx="40" cy="40" r="36" fill="none" stroke="#10b981" strokeWidth="4"
+                  strokeDasharray={`${progress * 2.26} 226`}
+                  strokeLinecap="round"
+                  className="transition-all duration-200"
                 />
+              </svg>
+              <div className="absolute inset-0 flex items-center justify-center">
+                <span className="text-emerald-400 text-sm font-mono font-bold">{Math.ceil((100 - progress) / 20)}s</span>
               </div>
             </div>
-            <div className="absolute bottom-4 text-white text-sm font-medium bg-black/50 px-3 py-1 rounded-full">
-              スキャン中... {Math.ceil((100 - progress) / 20)}秒
+            <div className="absolute bottom-4 text-emerald-300/80 text-xs font-medium bg-black/60 px-3 py-1 rounded-full backdrop-blur-sm">
+              解析中...
             </div>
           </div>
         )}
@@ -231,11 +254,18 @@ export default function FatigueScanner({ onResult }: Props) {
         <>
           <button
             onClick={startScan}
-            className="px-8 py-3 bg-emerald-500 hover:bg-emerald-400 text-white font-bold rounded-xl
-                       transition-all shadow-lg shadow-emerald-500/25 hover:shadow-emerald-400/40
-                       active:scale-95 text-lg"
+            className="relative px-10 py-4 bg-emerald-500 hover:bg-emerald-400 text-white font-bold rounded-2xl
+                       transition-all shadow-lg shadow-emerald-500/30 hover:shadow-emerald-400/50
+                       active:scale-95 text-lg group"
+            style={{ animation: 'pulse-glow 2s ease-in-out infinite' }}
           >
-            スキャン開始
+            <span className="relative z-10 flex items-center gap-2">
+              <svg className="w-5 h-5 group-hover:rotate-12 transition-transform" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
+                <circle cx="12" cy="12" r="3" />
+                <path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42" />
+              </svg>
+              スキャン開始
+            </span>
           </button>
           <div className="text-gray-600 text-xs">
             今週の残りスキャン: {remaining}/3（Proで無制限）

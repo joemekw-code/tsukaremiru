@@ -51,23 +51,23 @@ export default function Home() {
             <FatigueScanner onResult={setResult} />
 
             {/* Social proof / hook */}
-            <div className="mt-8 bg-gray-900/80 border border-gray-800 rounded-xl p-4">
-              <div className="text-sm text-gray-300 mb-2 font-medium">
-                こんな人に使われています
+            <div className="mt-8 space-y-3">
+              <div className="text-sm text-gray-400 font-medium px-1">
+                こんな時に使える
               </div>
-              <div className="space-y-2 text-xs text-gray-500">
-                <div className="flex gap-2">
-                  <span className="shrink-0">💻</span>
-                  <span>「深夜のデプロイ前に、自分がまともな判断力あるか確認したい」</span>
-                </div>
-                <div className="flex gap-2">
-                  <span className="shrink-0">🏢</span>
-                  <span>「上司に"疲れてます"と言う代わりに、数字を見せたい」</span>
-                </div>
-                <div className="flex gap-2">
-                  <span className="shrink-0">🎮</span>
-                  <span>「徹夜でランク戦やってたけど、本当にまだ続けていいのか」</span>
-                </div>
+              <div className="grid grid-cols-1 gap-2">
+                {[
+                  { icon: '💻', text: '深夜のデプロイ前に判断力チェック', tag: 'エンジニア' },
+                  { icon: '🏢', text: '「疲れてます」を数字で上司に証明', tag: '会社員' },
+                  { icon: '🎮', text: '徹夜ランク戦、まだ続けていいのか', tag: 'ゲーマー' },
+                  { icon: '📚', text: 'テスト前の追い込み、限界が知りたい', tag: '学生' },
+                ].map(({ icon, text, tag }) => (
+                  <div key={tag} className="flex items-center gap-3 bg-gray-900/60 border border-gray-800/50 rounded-xl px-4 py-3 hover:border-emerald-800/50 transition-colors">
+                    <span className="text-xl">{icon}</span>
+                    <span className="text-xs text-gray-400 flex-1">{text}</span>
+                    <span className="text-[10px] text-emerald-600 bg-emerald-950/50 px-2 py-0.5 rounded-full">{tag}</span>
+                  </div>
+                ))}
               </div>
             </div>
 

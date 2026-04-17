@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { width: 600px; height: 850px; background: #0a0a0a; font-family: -apple-system, 'Hiragino Sans', sans-serif; padding: 24px; }
+  .card { background: #0d0d0d; border: 1px solid #1f2937; border-radius: 16px; padding: 32px; }
+  .header { text-align: center; border-bottom: 2px dashed #1f2937; padding-bottom: 16px; margin-bottom: 20px; }
+  .title { color: white; font-size: 22px; font-weight: 700; letter-spacing: 4px; }
+  .date { color: #6b7280; font-size: 12px; margin-top: 4px; font-family: monospace; }
+  .score-row { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 8px; }
+  .label { color: #9ca3af; font-size: 14px; }
+  .score { font-size: 42px; font-weight: 700; font-family: monospace; color: #f87171; }
+  .score-max { font-size: 18px; color: #4b5563; }
+  .bar { background: #1f2937; border-radius: 6px; height: 10px; margin-bottom: 20px; overflow: hidden; }
+  .bar-fill { height: 100%; border-radius: 6px; }
+  .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 20px; }
+  .box { background: #111827; border-radius: 12px; padding: 16px; }
+  .box-label { color: #6b7280; font-size: 11px; margin-bottom: 4px; }
+  .box-value { font-size: 28px; font-weight: 700; font-family: monospace; }
+  .signals { border-top: 2px dashed #1f2937; padding-top: 16px; margin-bottom: 16px; }
+  .sig-title { color: #6b7280; font-size: 11px; margin-bottom: 12px; font-weight: 600; letter-spacing: 2px; }
+  .sig-row { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; }
+  .sig-name { color: #6b7280; font-size: 11px; width: 100px; flex-shrink: 0; }
+  .sig-bar { flex: 1; height: 6px; background: #1f2937; border-radius: 3px; overflow: hidden; }
+  .sig-fill { height: 100%; border-radius: 3px; }
+  .sig-pct { color: #6b7280; font-size: 11px; font-family: monospace; width: 36px; text-align: right; }
+  .rec { border-top: 2px dashed #1f2937; padding-top: 16px; color: #f87171; font-size: 13px; font-weight: 500; }
+  .footer { text-align: center; color: #374151; font-size: 11px; font-family: monospace; margin-top: 16px; padding-top: 12px; border-top: 2px dashed #1f2937; }
+</style>
+</head>
+<body>
+  <div class="card">
+    <div class="header"><div class="title">FATIGUE RECEIPT</div><div class="date">2026/04/17 10:00</div></div>
+    <div class="score-row"><span class="label">疲労度</span><span><span class="score">73</span><span class="score-max">/100</span></span></div>
+    <div class="bar"><div class="bar-fill" style="width:73%;background:#ef4444"></div></div>
+    <div class="grid">
+      <div class="box"><div class="box-label">推定睡眠</div><div class="box-value" style="color:white">1.8<span style="font-size:14px;color:#6b7280">h</span></div></div>
+      <div class="box"><div class="box-label">寝るべき度</div><div class="box-value" style="color:#f87171">72<span style="font-size:14px;color:#4b5563">/100</span></div></div>
+    </div>
+    <div class="box" style="margin-bottom:20px"><div style="display:flex;justify-content:space-between"><span class="box-label">KSS (眠気スケール)</span><span style="color:#4b5563;font-size:11px">Fighting Sleep</span></div><div class="box-value" style="color:white;margin-top:4px">7.9<span style="font-size:14px;color:#4b5563">/9</span></div></div>
+    <div class="signals">
+      <div class="sig-title">SIGNAL BREAKDOWN</div>
+      <div class="sig-row"><span class="sig-name">Dark Circles</span><div class="sig-bar"><div class="sig-fill" style="width:99%;background:#8b5cf6"></div></div><span class="sig-pct">99%</span></div>
+      <div class="sig-row"><span class="sig-name">Circadian</span><div class="sig-bar"><div class="sig-fill" style="width:97%;background:#ef4444"></div></div><span class="sig-pct">97%</span></div>
+      <div class="sig-row"><span class="sig-name">PERCLOS</span><div class="sig-bar"><div class="sig-fill" style="width:78%;background:#f59e0b"></div></div><span class="sig-pct">78%</span></div>
+      <div class="sig-row"><span class="sig-name">Blink Duration</span><div class="sig-bar"><div class="sig-fill" style="width:87%;background:#f59e0b"></div></div><span class="sig-pct">87%</span></div>
+      <div class="sig-row"><span class="sig-name">Head Movement</span><div class="sig-bar"><div class="sig-fill" style="width:73%;background:#10b981"></div></div><span class="sig-pct">73%</span></div>
+      <div class="sig-row"><span class="sig-name">EAR</span><div class="sig-bar"><div class="sig-fill" style="width:58%;background:#10b981"></div></div><span class="sig-pct">58%</span></div>
+    </div>
+    <div class="rec">今すぐ休んでください。認知機能がアルコール摂取時と同等レベルまで低下しています。</div>
+    <div class="footer">joemekw-code.github.io/tsukaremiru</div>
+  </div>
+</body>
+</html>
