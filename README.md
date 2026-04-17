@@ -1,36 +1,47 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# つかれみる (Tsukaremiru)
 
-## Getting Started
+**顔は嘘をつかない。カメラで5秒スキャンするだけで、あなたの疲労度を数値化します。**
 
-First, run the development server:
+[![Try it now](https://img.shields.io/badge/Try%20it-Live%20Demo-brightgreen)](https://joemekw-code.github.io/tsukaremiru/)
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## What is this?
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Webカメラに5秒間向けるだけで、あなたの疲労度を学術論文ベースのアルゴリズムで数値化するWebアプリです。
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- **疲労度スコア** (0-100)
+- **推定睡眠時間**
+- **KSS (Karolinska Sleepiness Scale)** — 国際標準の眠気尺度
+- **「寝るべき度」** スコア
+- **疲労レシート** — SNSでシェアできる結果画像
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## How it works
 
-## Learn More
+8つの生体信号をブラウザ内のAIがリアルタイム解析します：
 
-To learn more about Next.js, take a look at the following resources:
+| Signal | What it measures | Reference |
+|--------|-----------------|-----------|
+| PERCLOS | 目の閉じ具合の時間割合 | Dinges et al. (1998) |
+| Blink Duration | 瞬きの持続時間 | Caffier et al. (2003) |
+| Slow Blink Ratio | 遅い瞬き(>200ms)の割合 | Schleicher et al. (2008) |
+| Dark Circles (ΔE) | 目の下の色差(クマ) | CIE LAB color space |
+| Brightness Diff | 目下と頬の明度差 | Periorbital analysis |
+| Head Movement | 頭部の動揺パターン | Abe et al. (2011) |
+| EAR Variability | 目の開き安定性 | Soukupova & Cech (2016) |
+| Circadian Model | 体内時計に基づく理論推定 | Borbely (1982) |
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Privacy
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+**映像データはサーバーに一切送信されません。** すべての解析はブラウザ内のMediaPipe Face Landmarkerで完結します。
 
-## Deploy on Vercel
+## Tech Stack
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- Next.js (Static Export)
+- MediaPipe Face Landmarker (browser-side)
+- Tailwind CSS
+- TypeScript
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Try it
+
+https://joemekw-code.github.io/tsukaremiru/
+
+スマホでもPCでも、カメラがあれば使えます。
