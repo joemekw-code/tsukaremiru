@@ -4,6 +4,8 @@
 
 [![Try it now](https://img.shields.io/badge/Try%20it-Live%20Demo-brightgreen)](https://joemekw-code.github.io/tsukaremiru/)
 
+![Fatigue Levels](comparison.png)
+
 ## What is this?
 
 Webカメラに5秒間向けるだけで、あなたの疲労度を学術論文ベースのアルゴリズムで数値化するWebアプリです。
