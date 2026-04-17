@@ -3,6 +3,7 @@
 import { useRef, useCallback, useState } from 'react';
 import type { FatigueResult } from '@/lib/fatigue-engine';
 import { generateReceiptImage } from '@/lib/receipt-image';
+import AnimatedNumber from './AnimatedNumber';
 
 interface Props {
   result: FatigueResult;
@@ -110,7 +111,8 @@ export default function FatigueReceipt({ result, onReset }: Props) {
       {/* Receipt card */}
       <div
         ref={receiptRef}
-        className="bg-gray-950 border border-gray-800 rounded-2xl p-6 shadow-2xl"
+        className="bg-gray-950 border border-gray-800 rounded-2xl p-6 shadow-2xl animate-[fadeSlideUp_0.6s_ease-out]"
+        style={{ animation: 'fadeSlideUp 0.6s ease-out' }}
       >
         {/* Header */}
         <div className="text-center border-b border-dashed border-gray-700 pb-4 mb-4">
@@ -124,7 +126,7 @@ export default function FatigueReceipt({ result, onReset }: Props) {
             <div className="flex justify-between items-baseline mb-1">
               <span className="text-gray-400 text-sm">疲労度</span>
               <span className={`text-3xl font-bold font-mono ${getScoreColor(result.fatigueScore)}`}>
-                {result.fatigueScore}<span className="text-lg text-gray-600">/100</span>
+                <AnimatedNumber value={result.fatigueScore} duration={1500} /><span className="text-lg text-gray-600">/100</span>
               </span>
             </div>
             <Bar value={result.fatigueScore} color={getScoreBarColor(result.fatigueScore)} />
@@ -134,13 +136,13 @@ export default function FatigueReceipt({ result, onReset }: Props) {
             <div className="bg-gray-900 rounded-xl p-3">
               <div className="text-gray-500 text-xs mb-1">推定睡眠</div>
               <div className="text-2xl font-bold font-mono text-white">
-                {result.estimatedSleepHours}<span className="text-sm text-gray-500">h</span>
+                <AnimatedNumber value={result.estimatedSleepHours} decimals={1} duration={1000} /><span className="text-sm text-gray-500">h</span>
               </div>
             </div>
             <div className="bg-gray-900 rounded-xl p-3">
               <div className="text-gray-500 text-xs mb-1">寝るべき度</div>
               <div className={`text-2xl font-bold font-mono ${getScoreColor(result.shouldSleepScore)}`}>
-                {result.shouldSleepScore}<span className="text-sm text-gray-600">/100</span>
+                <AnimatedNumber value={result.shouldSleepScore} duration={1200} /><span className="text-sm text-gray-600">/100</span>
               </div>
             </div>
           </div>

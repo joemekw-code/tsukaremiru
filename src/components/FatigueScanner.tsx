@@ -4,6 +4,7 @@ import { useRef, useState, useCallback, useEffect } from 'react';
 import { FaceLandmarker, FilesetResolver } from '@mediapipe/tasks-vision';
 import { analyzeFatigue, type FatigueResult } from '@/lib/fatigue-engine';
 import { canScan, recordScan, getRemainingScans } from '@/lib/scan-limit';
+import { playScanStart, playScanComplete, playAlert } from '@/lib/sounds';
 
 type ScanState = 'idle' | 'loading' | 'ready' | 'scanning' | 'done' | 'limit';
 
@@ -83,6 +84,7 @@ export default function FatigueScanner({ onResult }: Props) {
     // Wait a moment for camera to stabilize
     await new Promise(r => setTimeout(r, 500));
 
+    playScanStart();
     setState('scanning');
     setProgress(0);
 
@@ -117,6 +119,11 @@ export default function FatigueScanner({ onResult }: Props) {
         const result = analyzeFatigue(earSeries, noseYSeries, colorSamples, TARGET_FPS);
         recordScan();
         setRemaining(getRemainingScans());
+        if (result.fatigueScore >= 70) {
+          playAlert();
+        } else {
+          playScanComplete();
+        }
         onResult(result);
         setState('done');
         return;

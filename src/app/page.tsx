@@ -7,9 +7,16 @@ import type { FatigueResult } from '@/lib/fatigue-engine';
 const FatigueScanner = dynamic(() => import('@/components/FatigueScanner'), {
   ssr: false,
   loading: () => (
-    <div className="w-full max-w-md mx-auto aspect-[4/3] bg-gray-900 rounded-2xl flex items-center justify-center">
-      <div className="text-gray-400 text-sm animate-pulse">
-        AIモデル読み込み中（初回のみ数秒）...
+    <div className="flex flex-col items-center gap-4">
+      <div className="w-full max-w-md aspect-[4/3] bg-gray-900 rounded-2xl flex items-center justify-center">
+        <div className="text-center text-gray-300">
+          <div className="text-4xl mb-3">📷</div>
+          <div className="text-sm mb-1">カメラに向かって5秒間じっとするだけ</div>
+          <div className="text-xs text-gray-500 animate-pulse mt-2">AIモデル読み込み中...</div>
+        </div>
+      </div>
+      <div className="px-8 py-3 bg-gray-700 text-gray-400 font-bold rounded-xl text-lg cursor-wait">
+        準備中...
       </div>
     </div>
   ),
