@@ -229,16 +229,23 @@ export default function FatigueScanner({ onResult }: Props) {
         )}
 
         {state === 'loading' && (
-          <div className="absolute inset-0 flex items-center justify-center bg-gray-900">
-            <div className="text-gray-400 text-sm animate-pulse">モデル読み込み中...</div>
+          <div className="absolute inset-0 flex items-center justify-center"
+               style={{ background: 'linear-gradient(135deg, #0f172a, #064e3b 50%, #0f172a)' }}>
+            <div className="text-center">
+              <div className="w-12 h-12 border-2 border-emerald-500/30 border-t-emerald-400 rounded-full animate-spin mx-auto mb-3" />
+              <div className="text-emerald-300/80 text-sm">AIモデル読み込み中...</div>
+              <div className="text-gray-600 text-xs mt-1">初回のみ数秒かかります</div>
+            </div>
           </div>
         )}
 
         {(state === 'idle' || state === 'ready') && !error && (
-          <div className="absolute inset-0 flex items-center justify-center bg-gray-900/80">
-            <div className="text-center text-gray-300">
-              <div className="text-4xl mb-2">📷</div>
-              <div className="text-sm">カメラに向かって5秒間じっとしてください</div>
+          <div className="absolute inset-0 flex items-center justify-center"
+               style={{ background: 'linear-gradient(135deg, #0f172a, #064e3b 50%, #0f172a)' }}>
+            <div className="text-center px-6">
+              <div className="text-5xl mb-3" style={{ animation: 'fadeSlideUp 0.5s ease-out' }}>(=_=)</div>
+              <div className="text-emerald-300 text-sm font-medium mb-1">カメラに5秒間向けてください</div>
+              <div className="text-gray-500 text-xs">あなたの疲労度を8つの信号で解析します</div>
             </div>
           </div>
         )}
