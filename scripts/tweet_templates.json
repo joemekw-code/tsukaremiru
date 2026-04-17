@@ -1,0 +1,54 @@
+[
+  {
+    "type": "post",
+    "text": "カメラに5秒向けるだけで疲労度がわかるWebアプリ、OSSで公開中。\n\n8つの生体信号をAI解析:\n- PERCLOS（目の閉じ具合）\n- 瞬き持続時間\n- クマの色差分析\n- サーカディアンモデル\n\nNext.js + MediaPipe\nブラウザ完結、データ送信なし\n\n#個人開発 #OSS\nhttps://joemekw-code.github.io/tsukaremiru/",
+    "image": "comparison.png"
+  },
+  {
+    "type": "post",
+    "text": "Oura Ring ¥40,000\nApple Watch ¥60,000\nつかれみる ¥0\n\nWebカメラだけで疲労度を測定。\n学術論文ベース。ブラウザ完結。\n\nhttps://joemekw-code.github.io/tsukaremiru/",
+    "image": "comparison.png"
+  },
+  {
+    "type": "reply_jp",
+    "templates": [
+      "お疲れ様です。疲れ具合をカメラ5秒で数値化するアプリ作りました https://joemekw-code.github.io/tsukaremiru/",
+      "自分の疲労度、数字で見ると面白いですよ https://joemekw-code.github.io/tsukaremiru/",
+      "カメラ5秒で疲労度チェックできます。無料です https://joemekw-code.github.io/tsukaremiru/",
+      "疲れてる時こそ数字で自分を見る。5秒でわかります https://joemekw-code.github.io/tsukaremiru/",
+      "お疲れ様です！どのくらい疲れてるかAIが5秒で教えてくれます https://joemekw-code.github.io/tsukaremiru/"
+    ]
+  },
+  {
+    "type": "reply_en",
+    "templates": [
+      "Check how tired you actually are - webcam fatigue scanner, 5 seconds, free https://joemekw-code.github.io/tsukaremiru/",
+      "I built a fatigue scanner that uses your webcam. 5 sec, 8 biomarkers, free https://joemekw-code.github.io/tsukaremiru/",
+      "Fun fact: 17h awake = BAC 0.05%. Check your fatigue level in 5 sec https://joemekw-code.github.io/tsukaremiru/"
+    ]
+  },
+  {
+    "type": "reply_dev",
+    "templates": [
+      "同じく個人開発やってます。疲労度をカメラで測るアプリ作ってるので良かったらチェックしてみてください",
+      "Next.js + MediaPipeで疲労スキャナー作ってます。お互い頑張りましょう #個人開発",
+      "stateバグ沼わかります...自分もMediaPipeの非同期処理で苦しみました。リリースおめでとうございます"
+    ]
+  },
+  {
+    "type": "search_keywords_jp",
+    "keywords": [
+      "疲れた 仕事", "眠い 仕事", "寝不足 つらい", "徹夜 眠い",
+      "残業 疲れた", "コーヒー 効かない", "目が重い", "集中力 低下",
+      "エンジニア 疲れ", "プログラマー 睡眠", "テレワーク 疲れ",
+      "デスマーチ", "納期 徹夜", "仕事 辞めたい 疲れ"
+    ]
+  },
+  {
+    "type": "search_keywords_en",
+    "keywords": [
+      "so tired work", "need sleep badly", "can't focus tired",
+      "developer burnout", "coding all night", "sleep deprived"
+    ]
+  }
+]
