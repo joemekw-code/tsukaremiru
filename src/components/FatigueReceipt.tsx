@@ -245,7 +245,7 @@ export default function FatigueReceipt({ result, onReset }: Props) {
           <span className="text-gray-500 text-sm">/月</span>
         </div>
         <a
-          href="https://buy.stripe.com/test_6oU00bbzA5ZJ2pIfW70VO00"
+          href="https://buy.stripe.com/test_6oUbITbCKbQWg8V8b67g400"
           target="_blank"
           rel="noopener noreferrer"
           className="block w-full text-center px-4 py-3 bg-white text-black font-bold rounded-xl
